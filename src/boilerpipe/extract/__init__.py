@@ -5,7 +5,7 @@ import charade
 import threading
 
 socket.setdefaulttimeout(15)
-lock = threading.Lock()
+# lock = threading.Lock()
 
 InputSource        = jpype.JClass('org.xml.sax.InputSource')
 StringReader       = jpype.JClass('java.io.StringReader')
@@ -51,12 +51,13 @@ class Extractor(object):
             if threading.activeCount() > 1:
                 if jpype.isThreadAttachedToJVM() == False:
                     jpype.attachThreadToJVM()
-            lock.acquire()
+            # lock.acquire()
             
             self.extractor = jpype.JClass(
                 "de.l3s.boilerpipe.extractors."+extractor).INSTANCE
         finally:
-            lock.release()
+            pass
+            # lock.release()
     
         reader = StringReader(self.data)
         self.source = BoilerpipeSAXInput(InputSource(reader)).getTextDocument()
